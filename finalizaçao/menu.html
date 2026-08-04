@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Padaria Cacetinho</title>
+
+    <link rel="stylesheet" href="menu.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>🥖 Padaria Cacetinho</h1>
+
+    <p>Escolha seus produtos</p>
+
+</header>
+
+<div class="conteudo">
+
+    <!-- PRODUTOS -->
+
+    <div class="produtos">
+
+        <div class="card" onclick="abrirProduto('Pão Francês',1,['Tradicional'])">
+            <h2>🥖 Pão Francês</h2>
+            <p>Pão crocante e fresquinho.</p>
+            <span>R$ 1,00</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Croissant',8,['Queijo','Chocolate','Frango'])">
+            <h2>🥐 Croissant</h2>
+            <p>Escolha o sabor.</p>
+            <span>R$ 8,00</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Pão de Queijo',4.5,['Tradicional'])">
+            <h2>🧀 Pão de Queijo</h2>
+            <p>Mineiro.</p>
+            <span>R$ 4,50</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Sonho',7,['Creme','Chocolate','Doce de Leite'])">
+            <h2>🍩 Sonho</h2>
+            <p>Escolha o recheio.</p>
+            <span>R$ 7,00</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Bolo',30,['Chocolate','Cenoura','Laranja'])">
+            <h2>🍰 Bolo</h2>
+            <p>Fatia.</p>
+            <span>R$ 30,00</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Cupcake',10,['Chocolate','Morango','Baunilha'])">
+            <h2>🧁 Cupcake</h2>
+            <p>Escolha o sabor.</p>
+            <span>R$ 10,00</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Café',5,['Tradicional'])">
+            <h2>☕ Café</h2>
+            <p>Café passado.</p>
+            <span>R$ 5,00</span>
+        </div>
+
+        <div class="card" onclick="abrirProduto('Suco',8,['Laranja','Uva','Limão'])">
+            <h2>🧃 Suco</h2>
+            <p>Natural.</p>
+            <span>R$ 8,00</span>
+        </div>
+
+    </div>
+
+    <!-- CARRINHO -->
+
+    <div class="carrinho">
+
+        <h2>🛒 Carrinho</h2>
+
+        <div id="listaCarrinho">
+
+            <p>Nenhum produto.</p>
+
+        </div>
+
+        <hr>
+
+        <h3 id="total">
+
+            Total: R$ 0,00
+
+        </h3>
+
+        <button onclick="finalizarCompra()">
+
+            Finalizar Compra
+
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div id="modal" class="modal">
+
+    <div class="janela">
+
+        <h2 id="nomeProduto"></h2>
+
+        <label>Sabor</label>
+
+        <select id="sabor"></select>
+
+        <label>Quantidade</label>
+
+        <input
+        type="number"
+        id="quantidade"
+        value="1"
+        min="1">
+
+        <div class="botoes">
+
+            <button onclick="adicionarCarrinho()">
+
+                Adicionar
+
+            </button>
+
+            <button onclick="fecharModal()">
+
+                Cancelar
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script src="menu.js"></script>
+<script>
+  // ===========================
+// VARIÁVEIS
+// ===========================
+
+let carrinho = [];
+
+let produtoAtual = "";
+let precoAtual = 0;
+
+// ===========================
+// ABRIR MODAL
+// ===========================
+
+function abrirProduto(nome, preco, sabores){
+
+    produtoAtual = nome;
+    precoAtual = preco;
+
+    document.getElementById("nomeProduto").innerHTML = nome;
+
+    let select = document.getElementById("sabor");
+
+    select.innerHTML = "";
+
+    for(let i=0;i<sabores.length;i++){
+
+        select.innerHTML +=
+        `<option>${sabores[i]}</option>`;
+
+    }
+
+    document.getElementById("quantidade").value = 1;
+
+    document.getElementById("modal").style.display = "flex";
+
+}
+
+// ===========================
+// FECHAR MODAL
+// ===========================
+
+function fecharModal(){
+
+    document.getElementById("modal").style.display = "none";
+
+}
+
+// ===========================
+// ADICIONAR AO CARRINHO
+// ===========================
+
+function adicionarCarrinho(){
+
+    let sabor = document.getElementById("sabor").value;
+
+    let quantidade =
+    parseInt(document.getElementById("quantidade").value);
+
+    if(quantidade <= 0){
+
+        alert("Quantidade inválida.");
+
+        return;
+
+    }
+
+    let subtotal = precoAtual * quantidade;
+
+    carrinho.push({
+
+        produto: produtoAtual,
+
+        sabor: sabor,
+
+        quantidade: quantidade,
+
+        preco: precoAtual,
+
+        subtotal: subtotal
+
+    });
+
+    atualizarCarrinho();
+
+    fecharModal();
+
+}
+
+// ===========================
+// ATUALIZAR CARRINHO
+// ===========================
+
+function atualizarCarrinho(){
+
+    let lista = document.getElementById("listaCarrinho");
+
+    lista.innerHTML = "";
+
+    let total = 0;
+    let itens = 0;
+
+    if(carrinho.length == 0){
+
+        lista.innerHTML = "<p>Nenhum produto no carrinho.</p>";
+
+        document.getElementById("total").innerHTML = "Total: R$ 0,00";
+
+        document.getElementById("contador").innerHTML = "0";
+
+        return;
+
+    }
+
+    for(let i=0;i<carrinho.length;i++){
+
+        itens += carrinho[i].quantidade;
+
+        total += carrinho[i].subtotal;
+
+        lista.innerHTML += `
+
+        <div class="itemCarrinho">
+
+            <h4>${carrinho[i].produto}</h4>
+
+            <p>Sabor: ${carrinho[i].sabor}</p>
+
+            <p>Preço: R$ ${carrinho[i].preco.toFixed(2)}</p>
+
+            <div class="quantidade">
+
+                <button onclick="diminuir(${i})">-</button>
+
+                <span>${carrinho[i].quantidade}</span>
+
+                <button onclick="aumentar(${i})">+</button>
+
+            </div>
+
+            <p><b>Subtotal: R$ ${carrinho[i].subtotal.toFixed(2)}</b></p>
+
+            <button class="remover" onclick="remover(${i})">
+
+                Remover
+
+            </button>
+
+        </div>
+
+        <hr>
+
+        `;
+
+    }
+
+    document.getElementById("contador").innerHTML = itens;
+
+    document.getElementById("total").innerHTML =
+
+    "Total: R$ " + total.toFixed(2);
+
+}
+
+
+  // ===========================
+// REMOVER PRODUTO
+// ===========================
+
+function remover(indice){
+
+    carrinho.splice(indice,1);
+
+    atualizarCarrinho();
+
+}
+
+// ===========================
+// LIMPAR CARRINHO
+// ===========================
+
+function limparCarrinho(){
+
+    carrinho = [];
+
+    atualizarCarrinho();
+
+}
+
+// ===========================
+// FINALIZAR COMPRA
+// ===========================
+
+function finalizarCompra(){
+
+    if(carrinho.length == 0){
+
+        alert("Adicione pelo menos um produto ao carrinho!");
+
+        return;
+
+    }
+
+    // Salva o carrinho para a próxima página
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+
+    // Abre a tela da nota
+    window.location.href = "home.html";
+
+}
+// =====================
+// PESQUISA
+// =====================
+
+function pesquisarProduto(){
+
+    let texto =
+    document.getElementById("pesquisar").value.toUpperCase();
+
+    let cards =
+    document.querySelectorAll(".card");
+
+    for(let i=0;i<cards.length;i++){
+
+        let nome =
+        cards[i].innerText.toUpperCase();
+
+        if(nome.indexOf(texto)>-1){
+
+            cards[i].style.display="block";
+
+        }else{
+
+            cards[i].style.display="none";
+
+        }
+
+    }
+
+}
+
+// =====================
+// CATEGORIAS
+// =====================
+
+function mostrarCategoria(categoria){
+
+    let cards =
+    document.querySelectorAll(".card");
+
+    for(let i=0;i<cards.length;i++){
+
+        if(categoria=="todos"){
+
+            cards[i].style.display="block";
+
+        }else if(cards[i].classList.contains(categoria)){
+
+            cards[i].style.display="block";
+
+        }else{
+
+            cards[i].style.display="none";
+
+        }
+
+    }
+
+}
+// ======================
+// AUMENTAR QUANTIDADE
+// ======================
+
+function aumentar(indice){
+
+    carrinho[indice].quantidade++;
+
+    carrinho[indice].subtotal =
+    carrinho[indice].quantidade *
+    carrinho[indice].preco;
+
+    atualizarCarrinho();
+
+}
+
+// ======================
+// DIMINUIR QUANTIDADE
+// ======================
+
+function diminuir(indice){
+
+    if(carrinho[indice].quantidade > 1){
+
+        carrinho[indice].quantidade--;
+
+        carrinho[indice].subtotal =
+        carrinho[indice].quantidade *
+        carrinho[indice].preco;
+
+    }else{
+
+        carrinho.splice(indice,1);
+
+    }
+
+    atualizarCarrinho();
+
+}function adicionarCarrinho(){
+
+    let sabor = document.getElementById("sabor").value;
+
+    let quantidade = parseInt(document.getElementById("quantidade").value);
+
+    if(quantidade <= 0){
+        alert("Quantidade inválida.");
+        return;
+    }
+
+    let existe = carrinho.find(item =>
+        item.produto === produtoAtual &&
+        item.sabor === sabor
+    );
+
+    if(existe){
+
+        existe.quantidade += quantidade;
+        existe.subtotal = existe.quantidade * existe.preco;
+
+    }else{
+
+        carrinho.push({
+            produto: produtoAtual,
+            sabor: sabor,
+            quantidade: quantidade,
+            preco: precoAtual,
+            subtotal: precoAtual * quantidade
+        });
+
+    }
+
+    atualizarCarrinho();
+
+    fecharModal();
+
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Finalizar Pedido</title>
+
+    <link rel="stylesheet" href="home.css">
+
+</head>
+
+<body>
+
+    <header>
+
+        <h1>🧾 Padaria Cacetinho</h1>
+
+        <p>Finalização da Compra</p>
+
+    </header>
+
+    <div class="container">
+
+        <!-- NOTA -->
+
+        <div class="nota">
+
+            <h2>Produtos Comprados</h2>
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>Produto</th>
+
+                        <th>Sabor</th>
+
+                        <th>Qtd</th>
+
+                        <th>Preço</th>
+
+                        <th>Subtotal</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="tabelaProdutos">
+
+                </tbody>
+
+            </table>
+
+            <h2 id="valorTotal">
+
+                Total: R$ 0,00
+
+            </h2>
+
+        </div>
+
+        <!-- PAGAMENTO -->
+
+        <div class="pagamento">
+
+            <h2>Forma de Pagamento</h2>
+
+            <label>
+
+                <input type="radio" name="pagamento" value="pix" onclick="mostrarPagamento()">
+
+                PIX
+
+            </label>
+
+            <label>
+
+                <input type="radio" name="pagamento" value="cartao" onclick="mostrarPagamento()">
+
+                Cartão
+
+            </label>
+
+            <label>
+
+                <input type="radio" name="pagamento" value="dinheiro" onclick="mostrarPagamento()">
+
+                Dinheiro
+
+            </label>
+
+            <!-- PIX -->
+
+            <div id="pix" class="caixa">
+
+                <h3>Pagamento via PIX</h3>
+
+                <p>
+
+                    Chave PIX:
+
+                </p>
+
+                <h2>
+
+                    11999999999
+
+                </h2>
+
+            </div>
+
+            <!-- CARTÃO -->
+
+            <div id="cartao" class="caixa">
+
+                <h3>Tipo do Cartão</h3>
+
+                <select>
+
+                    <option>Crédito</option>
+
+                    <option>Débito</option>
+
+                </select>
+
+            </div>
+
+            <!-- DINHEIRO -->
+
+            <div id="dinheiro" class="caixa">
+
+                <h3>Valor Recebido</h3>
+
+                <input type="number" id="recebido" placeholder="Digite o valor" onkeyup="calcularTroco()">
+
+                <h2 id="troco">
+
+                    Troco: R$ 0,00
+
+                </h2>
+
+            </div>
+
+            <button onclick="finalizarPedido()">
+
+                FINALIZAR PEDIDO
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="home.js"></script>
+    <script>
+        // ==========================
+        // CARREGA O CARRINHO
+        // ==========================
+
+        let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+        let total = 0;
+
+        window.onload = function () {
+
+            carregarProdutos();
+
+        }
+
+        // ==========================
+        // MOSTRAR PRODUTOS
+        // ==========================
+
+        function carregarProdutos() {
+
+            let tabela = document.getElementById("tabelaProdutos");
+
+            tabela.innerHTML = "";
+
+            total = 0;
+
+            if (carrinho.length == 0) {
+
+                tabela.innerHTML = `
+        <tr>
+
+            <td colspan="5">
+
+                Nenhum produto encontrado.
+
+            </td>
+
+        </tr>
+        `;
+
+                return;
+
+            }
+
+            for (let i = 0; i < carrinho.length; i++) {
+
+                tabela.innerHTML += `
+
+        <tr>
+
+            <td>${carrinho[i].produto}</td>
+
+            <td>${carrinho[i].sabor}</td>
+
+            <td>${carrinho[i].quantidade}</td>
+
+            <td>R$ ${carrinho[i].preco.toFixed(2)}</td>
+
+            <td>R$ ${carrinho[i].subtotal.toFixed(2)}</td>
+
+        </tr>
+
+        `;
+
+                total += carrinho[i].subtotal;
+
+            }
+
+            document.getElementById("valorTotal").innerHTML =
+                "Total: R$ " + total.toFixed(2);
+
+        }
+
+        // ==========================
+        // MOSTRAR PAGAMENTO
+        // ==========================
+
+        function mostrarPagamento() {
+
+            document.getElementById("pix").style.display = "none";
+            document.getElementById("cartao").style.display = "none";
+            document.getElementById("dinheiro").style.display = "none";
+
+            let opcao =
+                document.querySelector("input[name='pagamento']:checked");
+
+            if (opcao == null) {
+
+                return;
+
+            }
+
+            if (opcao.value == "pix") {
+
+                document.getElementById("pix").style.display = "block";
+
+            }
+
+            if (opcao.value == "cartao") {
+
+                document.getElementById("cartao").style.display = "block";
+
+            }
+
+            if (opcao.value == "dinheiro") {
+
+                document.getElementById("dinheiro").style.display = "block";
+
+            }
+
+        }
+
+        // ==========================
+        // CALCULAR TROCO
+        // ==========================
+
+        function calcularTroco() {
+
+            let recebido =
+                parseFloat(document.getElementById("recebido").value);
+
+            if (isNaN(recebido)) {
+
+                document.getElementById("troco").innerHTML =
+                    "Troco: R$ 0,00";
+
+                return;
+
+            }
+
+            let troco = recebido - total;
+
+            if (troco < 0) {
+
+                document.getElementById("troco").innerHTML =
+                    "Valor insuficiente!";
+
+            } else {
+
+                document.getElementById("troco").innerHTML =
+                    "Troco: R$ " + troco.toFixed(2);
+
+            }
+
+        }
+
+        // ==========================
+        // FINALIZAR PEDIDO
+        // ==========================
+
+        function finalizarPedido() {
+
+            let pagamento = document.querySelector("input[name='pagamento']:checked");
+
+            if (!pagamento) {
+                alert("Escolha uma forma de pagamento!");
+                return;
+            }
+
+            if (pagamento.value == "dinheiro") {
+
+                let recebido = parseFloat(document.getElementById("recebido").value);
+
+                if (isNaN(recebido) || recebido < total) {
+                    alert("Valor em dinheiro insuficiente!");
+                    return;
+                }
+            }
+
+            // alert("Pedido realizado com sucesso!");
+
+            localStorage.removeItem("carrinho");
+
+            
+            window.location.href = "login.html";
+            // setTimeout(function () {
+
+                
+
+            // }, 2000);
+
+        }
+
+
+    </script>
+</body>
+
+</html>
