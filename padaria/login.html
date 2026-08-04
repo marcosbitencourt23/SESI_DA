@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - Padaria Cacetinho</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    display:flex;
+    height:100vh;
+}
+
+.le{
+    width:50%;
+    background-image:url("./ChatGPT Image 4 de ago. de 2026, 07_52_10 - Copia.png");
+    background-size:cover;
+    background-position:center;
+}
+
+.ld{
+    width:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login{
+    width:450px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.login h1{
+    font-size:55px;
+    margin-bottom:50px;
+}
+
+.login input{
+    width:100%;
+    padding:18px;
+    margin-bottom:20px;
+    border-radius:50px;
+    border:1px solid black;
+    font-size:18px;
+    outline:none;
+}
+
+.login input:focus{
+    border:2px solid #8B4513;
+}
+
+.login p{
+    margin:20px 0;
+    color:#444;
+}
+
+.entrar-btn{
+    width:300px;
+    height:60px;
+    border:none;
+    border-radius:50px;
+    background:black;
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.entrar-btn:hover{
+    background:#8B4513;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="le"></div>
+
+<div class="ld">
+
+    <div class="login">
+
+        <h1>Venha comprar seu pão</h1>
+
+        <input type="text" id="usuario" placeholder="Login">
+
+        <input type="password" id="senha" placeholder="Senha">
+
+        <p>Entre com seu usuário e senha para acessar o sistema.</p>
+
+        <button class="entrar-btn" onclick="login()">
+            VAMOS LÁ
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+function login(){
+
+    const usuario = document.getElementById("usuario").value.trim();
+    const senha = document.getElementById("senha").value.trim();
+
+    if(usuario === ""){
+        alert("Digite o usuário.");
+        return;
+    }
+
+    if(senha === ""){
+        alert("Digite a senha.");
+        return;
+    }
+
+    if(usuario === "admin" && senha === "1234"){
+
+        alert("Login realizado com sucesso!");
+
+        // Abre o sistema
+        window.location.href = "trabalho.html";
+
+    }else{
+
+        alert("Usuário ou senha incorretos!");
+
+        document.getElementById("senha").value="";
+        document.getElementById("senha").focus();
+
+    }
+
+}
+
+</script>
+
+</body>
+</html>
