@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cadastro de alunos</title>
+</head>
+
+<body>
+    <h2>cadastro de alunos</h2>
+    <form id="formAluno">
+        <div>
+            <label for="nome">Nome completo:</label><br>
+            <input type="text" id="nome" name="nome" placeholder="nome aluno" required>
+        </div>
+        <br>
+
+        <div>
+            <label for="email">E-mail</label><br>
+            <input type="email" id="email" name="email" placeholder="aluno@email" required>
+        </div>
+        <br>
+
+        <div>
+            <label for="nascimento">Data de nascimento</label><br>
+            <input type="date" id="nascimento" name="nascimento" required>
+        </div>
+        <br>
+
+        <div>
+            <label for="curso">Curso:</label><br>
+            <select id="curso" name="curso">
+                <option value="humanas">Humanas</option>
+                <option value="automacao">automacao</option>
+                <option value="ti">ti</option>
+            </select>
+        </div>
+        <br>
+        <div>
+            <button type="submit">Cadastrar aluno</button>
+        </div>
+    </form>
+
+    <table id="tabelaalunos">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Savings</th>
+            </tr>
+        </thead>
+        <tbody> </tbody>
+
+    </table>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
