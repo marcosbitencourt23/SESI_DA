@@ -1,141 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
 {
-margin 0
-padding 0
-box-sizing border-box
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
 body {
-font-family: Arial, Helvetica, sans-serif;
-background: #f4f6f8;
-color: #333;
+font-family: 'Poppins', sans-serif;
+background: linear-gradient(135deg, #667eea, #764ba2);
 min-height: 100vh;
 padding: 40px 20px;
+color: #333;
 }
 
 .container {
 width: 100%;
-max-width: 1000px;
+max-width: 1100px;
 margin: 0 auto;
 }
 
+/* CARDS */
+
 .card {
-background: #ffffff;
-padding: 30px;
-margin-bottom: 25px;
-border-radius: 12px;
-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+background: rgba(255, 255, 255, 0.97);
+padding: 35px;
+margin-bottom: 30px;
+border-radius: 20px;
+box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
 }
 
-h1,
+/* TÍTULOS */
+
+h1 {
+text-align: center;
+font-size: 32px;
+color: #4f46e5;
+margin-bottom: 8px;
+}
+
 h2 {
-color: #222;
-margin-bottom: 10px;
+color: #333;
+margin-bottom: 20px;
+font-size: 24px;
 }
 
 .subtitle {
-color: #666;
-margin-bottom: 25px;
+text-align: center;
+color: #777;
+margin-bottom: 30px;
 }
 
+/* FORMULÁRIO */
+
 .campo {
-margin-bottom: 18px;
+margin-bottom: 20px;
 }
 
 .campo label {
 display: block;
-margin-bottom: 7px;
-font-weight: bold;
+margin-bottom: 8px;
+font-weight: 600;
+color: #444;
 }
 
 .campo input,
 .campo select {
 width: 100%;
-padding: 12px;
-border: 1px solid #ccc;
-border-radius: 7px;
-font-size: 16px;
-outline: none;
-transition: 0.2s;
+padding: 14px 16px;
+border: 2px solid #e5e7eb;
+border-radius: 10px;
+background: #f9fafb;
+font-family: inherit;
+font-size: 15px;
+color: #333;
+transition: all 0.3s ease;
 }
 
 .campo input:focus,
 .campo select:focus {
-border-color: #2563eb;
-box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+outline: none;
+border-color: #6366f1;
+background: white;
+box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
 }
 
-button {
+.campo input::placeholder {
+color: #aaa;
+}
+
+/* BOTÃO */
+
+form button {
 width: 100%;
-padding: 13px;
+padding: 14px;
+margin-top: 5px;
 border: none;
-border-radius: 7px;
-background: #2563eb;
+border-radius: 10px;
+background: linear-gradient(135deg, #6366f1, #8b5cf6);
 color: white;
+font-family: inherit;
 font-size: 16px;
-font-weight: bold;
+font-weight: 600;
 cursor: pointer;
-transition: 0.2s;
+transition: all 0.3s ease;
 }
 
-button:hover {
-background: #1d4ed8;
+form button:hover {
+transform: translateY(-2px);
+box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
 }
+
+form button:active {
+transform: translateY(0);
+}
+
+/* TABELA */
 
 .tabela-container {
 overflow-x: auto;
-margin-top: 20px;
+border-radius: 12px;
 }
 
 table {
 width: 100%;
 border-collapse: collapse;
-min-width: 700px;
+min-width: 750px;
+overflow: hidden;
 }
 
-th,
-td {
-padding: 14px;
-text-align: left;
-border-bottom: 1px solid #ddd;
+thead {
+background: linear-gradient(135deg, #6366f1, #8b5cf6);
 }
 
 th {
-background: #2563eb;
+padding: 15px;
 color: white;
+text-align: left;
+font-size: 14px;
+font-weight: 600;
 }
 
-tr:hover {
-background: #f8fafc;
-}
-
-.mensagem-vazia {
-text-align: center;
-color: #777;
-margin-top: 20px;
-}
-
-.btn-excluir {
-width: auto;
-padding: 7px 12px;
-background: #dc2626;
+td {
+padding: 14px 15px;
+border-bottom: 1px solid #eee;
+color: #555;
 font-size: 14px;
 }
 
-.btn-excluir:hover {
-background: #b91c1c;
+tbody tr {
+transition: background 0.2s ease;
 }
 
+tbody tr:hover {
+background: #f5f3ff;
+}
+
+tbody tr:last-child td {
+border-bottom: none;
+}
+
+/* BOTÃO EXCLUIR */
+
+.btn-excluir {
+width: auto;
+padding: 7px 13px;
+border: none;
+border-radius: 7px;
+background: #ef4444;
+color: white;
+font-family: inherit;
+font-size: 13px;
+font-weight: 500;
+cursor: pointer;
+transition: 0.2s;
+}
+
+.btn-excluir:hover {
+background: #dc2626;
+transform: scale(1.05);
+}
+
+/* MENSAGEM */
+
+.mensagem-vazia {
+text-align: center;
+color: #999;
+padding: 25px;
+font-size: 14px;
+}
+
+/* RESPONSIVIDADE */
+
 @media (max-width: 600px) {
+
 body {
-padding: 20px 10px;
+    padding: 20px 10px;
 }
 
 .card {
-    padding: 20px;
+    padding: 25px 20px;
+    border-radius: 15px;
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 25px;
 }
+
+h2 {
+    font-size: 20px;
+}
+
+.subtitle {
+    font-size: 14px;
+}
+
+.campo input,
+.campo select {
+    padding: 12px;
+}
+
+form button {
+    padding: 13px;
+}
+
 
 }
