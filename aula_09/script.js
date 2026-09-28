@@ -1,48 +1,83 @@
 
+const form = document.getElementById("formAluno");
+const listaAlunos = document.getElementById("listaAlunos");
+const mensagemVazia = document.getElementById("mensagemVazia");
 
+let alunos = [];
 
-const form = document.getElementById('formAluno')
-const tabela = document.getElementById('tabelaalunos').getElementsByTagName("tbody")[0];
+form.addEventListener("submit", function (event) {
+event.preventDefault();
 
+const nome = document.getElementById("nome").value.trim();
+const email = document.getElementById("email").value.trim();
+const nascimento = document.getElementById("nascimento").value;
+const curso = document.getElementById("curso").value;
 
-function carregarAlunos() {
-    tabela.innerHTML = "";
-    const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
+const aluno = {
+    id: Date.now(),
+    nome,
+    email,
+    nascimento,
+    curso
+};
 
-    alunos.forEach(aluno => {
-        const novaLinha = tabela.insertRow();
-        novaLinha.innerHTML = `<td>${aluno.nome}</td>
-        <td>${aluno.email}</td>
-        <td>${aluno.curso}</td>
-        <td>${aluno.nascimento}</td>
-        `;
-    });
-}
+alunos.push(aluno);
 
+atualizarTabela();
 
-form.addEventListener('submit', function (event) {
-    event.preventDefault();
+form.reset();
 
-    const nome = document.getElementById('nome').value;
-    const email = document.getElementById('email').value;
-    const curso = document.getElementById('curso').value;
-    const nascimento = document.getElementById('nascimento').value;
-
-    const novoAluno = { nome, email, curso, nascimento};
-
-
-    const alunos = JSON.parse(localStorage.getItem('alunos')) || [];
-
-    alunos.push(novoAluno);
-
-    localStorage.setItem('alunos', JSON.stringify(alunos));
-
-
-    form.reset();
-
-
-    carregarAlunos();
 });
 
+function atualizarTabela() {
+listaAlunos.innerHTML = "";
 
-carregarAlunos();
+if (alunos.length === 0) {
+    mensagemVazia.style.display = "block";
+    return;
+}
+
+mensagemVazia.style.display = "none";
+
+alunos.forEach(function (aluno) {
+    const linha = document.createElement("tr");
+
+    linha.innerHTML = `
+        <td>${aluno.nome}</td>
+        <td>${aluno.email}</td>
+        <td>${formatarData(aluno.nascimento)}</td>
+        <td>${aluno.curso}</td>
+        <td>
+            <button
+                class="btn-excluir"
+                onclick="excluirAluno(${aluno.id})"
+            >
+                Excluir
+            </button>
+        </td>
+    `;
+
+    listaAlunos.appendChild(linha);
+});
+
+}
+
+function excluirAluno(id) {
+alunos = alunos.filter(function (aluno) {
+return aluno.id !== id;
+});
+
+atualizarTabela();
+
+}
+
+function formatarData(data) {
+if (!data) return "";
+
+const partes = data.split("-");
+
+return `${partes[2]}/${partes[1]}/${partes[0]}`;
+
+}
+
+atualizarTabela();
