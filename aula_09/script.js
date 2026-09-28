@@ -1,19 +1,17 @@
-nst form = document.getElementById("formAluno");
+const form = document.getElementById("formAluno");
 const listaAlunos = document.getElementById("listaAlunos");
 const mensagemVazia = document.getElementById("mensagemVazia");
 
-
 let alunos = JSON.parse(localStorage.getItem("alunos")) || [];
 
-
 form.addEventListener("submit", function (event) {
+
 event.preventDefault();
 
 const nome = document.getElementById("nome").value.trim();
 const email = document.getElementById("email").value.trim();
 const nascimento = document.getElementById("nascimento").value;
 const curso = document.getElementById("curso").value;
-
 
 const aluno = {
     id: Date.now(),
@@ -25,7 +23,6 @@ const aluno = {
 
 alunos.push(aluno);
 
-
 salvarAlunos();
 
 atualizarTabela();
@@ -35,26 +32,25 @@ form.reset();
 
 });
 
-
 function salvarAlunos() {
-localStorage.setItem("alunos", JSON.stringify(alunos));
-}
 
+localStorage.setItem("alunos", JSON.stringify(alunos));
+
+
+}
 
 function atualizarTabela() {
 
-
 listaAlunos.innerHTML = "";
 
-
 if (alunos.length === 0) {
+
     mensagemVazia.style.display = "block";
+
     return;
 }
 
-
 mensagemVazia.style.display = "none";
-
 
 alunos.forEach(function (aluno) {
 
@@ -66,7 +62,8 @@ alunos.forEach(function (aluno) {
         <td>${formatarData(aluno.nascimento)}</td>
         <td>${aluno.curso}</td>
         <td>
-            <button
+            <button 
+                type="button"
                 class="btn-excluir"
                 onclick="excluirAluno(${aluno.id})"
             >
@@ -76,27 +73,26 @@ alunos.forEach(function (aluno) {
     `;
 
     listaAlunos.appendChild(linha);
+
 });
 
 
 }
 
-
 function excluirAluno(id) {
 
 alunos = alunos.filter(function (aluno) {
+
     return aluno.id !== id;
+
 });
 
-
 salvarAlunos();
-
 
 atualizarTabela();
 
 
 }
-
 
 function formatarData(data) {
 
